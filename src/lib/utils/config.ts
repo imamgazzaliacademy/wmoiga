@@ -1,0 +1,3 @@
+export const instagram_url = process.env.NEXT_PUBLIC_INSTAGRAM_URL
+export const facebook_url=process.env.NEXT_PUBLIC_FACEBOOK_URL
+export const youtube_url=process.env.NEXT_PUBLIC_YOUTUBE_URL
