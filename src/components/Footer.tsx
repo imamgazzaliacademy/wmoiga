@@ -71,7 +71,7 @@ const Footer = () => {
                 <FaYoutube />
               </Link>
               <Link
-                href={instagram_url || ""}
+                href={`mailto:${process.env.NEXT_PUBLIC_EMAIL_ID}`}
                 target="_blank"
                 className="text-white text-xl opacity-70 hover:opacity-100 hover:text-(--accent-gold) transition-all"
               >
