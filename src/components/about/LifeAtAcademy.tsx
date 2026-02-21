@@ -188,7 +188,7 @@ const LifeAtAcademy = () => {
               </div>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src="/photos/5.JPG"
+                  src="/photos/5.jpg"
                   alt="Community"
                   className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
                 />

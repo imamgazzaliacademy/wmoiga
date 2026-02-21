@@ -33,7 +33,7 @@ export default function Hero() {
       ref={heroRef}
       className="relative px-6 py-24 min-h-[80vh] bg-cover bg-center text-white text-center flex flex-col justify-center items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.7), rgba(13, 59, 46, 0.7)), url('/photos/3.JPG')`,
+        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.7), rgba(13, 59, 46, 0.7)), url('/photos/3.jpg')`,
       }}
     >
       <div className="reveal max-w-4xl">

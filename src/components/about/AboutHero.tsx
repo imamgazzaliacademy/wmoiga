@@ -13,7 +13,7 @@ const AboutHero = () => {
     <section
       className="relative px-6 py-32 min-h-[60vh] bg-cover bg-center text-white flex flex-col justify-center items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.7), rgba(13, 59, 46, 0.7)), url('/photos/2.JPG')`,
+        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.7), rgba(13, 59, 46, 0.7)), url('/photos/2.jpg')`,
       }}
     >
       {/* Breadcrumb */}

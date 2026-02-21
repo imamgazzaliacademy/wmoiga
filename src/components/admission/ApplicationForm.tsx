@@ -408,7 +408,7 @@ const ApplicationForm = () => {
                       {photoPreview ? "Change Photo" : "Upload Photo"}
                     </label>
                     <p className="text-xs text-gray-500 text-center">
-                      Max size: 2MB | Formats: JPG, PNG
+                      Max size: 2MB | Formats: jpg, PNG
                     </p>
                   </div>
                 </div>
@@ -935,7 +935,7 @@ const ApplicationForm = () => {
                     )}
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
-                    Accepted formats: PDF, JPG, PNG | Max size: 5MB
+                    Accepted formats: PDF, jpg, PNG | Max size: 5MB
                   </p>
                 </div>
 
