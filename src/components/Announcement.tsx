@@ -8,7 +8,7 @@ const Announcement = () => {
         <div className="animate-scroll-single whitespace-nowrap">
           <p className="font-medium text-[14px] text-(--secondary-bg) inline-block px-6">
             Admissions for 2026 are now open. Apply and confirm your application
-            before march 20. for more information contact +91 9207396747
+            before march 20. for more information contact +91 9745 222 294
           </p>
         </div>
       </div>

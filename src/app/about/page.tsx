@@ -15,8 +15,8 @@ export default function AboutPage() {
       <AboutUs />
       <History />
       <WhatWeOffer />
-      <Management />
-      <Faculties />
+      {/* <Management /> */}
+      {/* <Faculties /> */}
       <LifeAtAcademy />
       <Footer/>
     </main>

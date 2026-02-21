@@ -174,21 +174,21 @@ const LifeAtAcademy = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2 rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src="https://placehold.co/800x500/0d3b2e/ffffff?text=Campus+Life"
+                  src="/photos/1.png"
                   alt="Campus Life"
                   className="w-full h-64 object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src="https://placehold.co/400x400/0d3b2e/ffffff?text=Study+Hall"
+                  src="/photos/std3.jpg"
                   alt="Study Hall"
                   className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
                 />
               </div>
               <div className="rounded-lg overflow-hidden shadow-lg">
                 <img
-                  src="https://placehold.co/400x400/0d3b2e/ffffff?text=Community"
+                  src="/photos/5.jpg"
                   alt="Community"
                   className="w-full h-48 object-cover transition-transform duration-500 hover:scale-105"
                 />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Announcement from "./Announcement";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,6 +50,8 @@ const Navbar = () => {
     { title: "Admission", href: "/admission" },
     { title: "Alumni", href: "/alumni" },
     { title: "Contact Us", href: "/contact" },
+    // {title: "Examination",href:"/examination"},
+    { title: "Gallery", href: "/gallery" },
   ];
 
   const handleHome = () => router.push("/");
@@ -144,7 +147,7 @@ const Navbar = () => {
         {/* CTA Button - Desktop */}
         <div className="hidden md:block">
           <button
-          onClick={handleApply}
+            onClick={handleApply}
             className={`px-4 sm:px-6 h-10 gold-button ${isScrolled ? "rounded-full " : "rounded-[5px]"} text-[13px] sm:text-[14px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300`}
           >
             Apply Now
@@ -232,8 +235,9 @@ const Navbar = () => {
 
             <button
               onClick={() => {
-                handleApply()
-                setIsMobileMenuOpen(false)}}
+                handleApply();
+                setIsMobileMenuOpen(false);
+              }}
               className="mt-2 w-full h-12 gold-button rounded-[5px] text-[15px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300"
             >
               Apply Now
@@ -241,6 +245,9 @@ const Navbar = () => {
           </nav>
         </div>
       </div>
+      {!isScrolled && <div className="top-16 fixed z-50 w-screen">
+        <Announcement />
+      </div>}
     </>
   );
 };

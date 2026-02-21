@@ -76,7 +76,7 @@ const LifeAtGazzali = () => {
             }`}
           >
             <img
-              src="/img1.png"
+              src="/photos/1.png"
               alt=""
               className="h-full w-full object-cover transition-all ease-linear duration-300 hover:scale-[1.05]"
             />

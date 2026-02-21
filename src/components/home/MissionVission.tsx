@@ -29,20 +29,20 @@ const MissionVission = () => {
       id: 1,
       titile: "Our mission",
       content:
-        "Imam Gazzali Academy is committed to nurturing students with strong academic foundations and sound moral values rooted in Islamic teachings. Our mission is to provide quality education that balances religious knowledge with modern learning, enabling students to grow intellectually, spiritually, and socially. We strive to shape disciplined, confident individuals who contribute positively to society with integrity and responsibility.",
+        "Imam Gazzali Academy aims to become a center of excellence in Islamic thoughts and research by providing authentic and scholarly leadership to assure the representation of the Muslim community in the educational, cultural, social, and political fields of the society.",
     },
     {
-      id: 2,
-      titile: "Our Vission",
-      content:
-        "Our vision is to become a leading educational institution that produces knowledgeable, morally upright, and socially responsible individuals. Imam Gazzali Academy envisions a future where students excel academically while embodying Islamic values, leadership qualities, and compassion. We aim to prepare generations capable of facing modern challenges with wisdom, confidence, and a strong sense of purpose.",
-    },
-    {
-      id: 3,
-      titile: "Philosophy",
-      content:
-        "The philosophy of Imam Gazzali Academy is built on the belief that true education nurtures both the mind and the soul. Inspired by Islamic principles, we emphasize character development, discipline, and ethical conduct alongside academic achievement. We believe education should cultivate wisdom, humility, and service, guiding students to lead meaningful lives rooted in faith, knowledge, and responsibility.",
-    },
+    id: 2,
+    title: "Our Vision",
+    content:
+      "Imam Gazzali Academy envisions nurturing socially responsible, morally grounded, and intellectually competent Islamic scholars who possess knowledge, competitiveness, and strong values to contribute positively to society through education, research, and community engagement.",
+  },
+  {
+    id: 3,
+    title: "Our Values",
+    content:
+      "The Academy upholds core values such as commitment, respect, integrity, accountability, and responsibility, fostering an environment that encourages ethical leadership, mutual understanding, and dedication to personal and community development.",
+  },
   ];
 
   return (

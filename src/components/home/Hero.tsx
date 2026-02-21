@@ -33,11 +33,11 @@ export default function Hero() {
       ref={heroRef}
       className="relative px-6 py-24 min-h-[80vh] bg-cover bg-center text-white text-center flex flex-col justify-center items-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.8), rgba(13, 59, 46, 0.8)), url('https://placehold.co/1024x800/0d3b2e/ffffff?text=Imam+Gazzali+Campus&id=hero_img_v2')`,
+        backgroundImage: `linear-gradient(rgba(13, 59, 46, 0.7), rgba(13, 59, 46, 0.7)), url('/photos/3.jpg')`,
       }}
     >
       <div className="reveal max-w-4xl">
-        <h1 className="text-4xl md:text-5xl font-['Playfair_Display'] lg:text-6xl mb-6 max-w-200">
+        <h1 className="text-4xl md:text-5xl font-semibold font-['Playfair_Display'] lg:text-6xl mb-6 max-w-200">
           Excellence in Academic and Spiritual Learning
         </h1>
         <p className="text-lg md:text-xl mb-10 max-w-175 opacity-90">

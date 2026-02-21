@@ -54,9 +54,8 @@ const ContactInfo = () => {
         />
       ),
       details: [
-        "+91 123 456 7890",
-        "+91 098 765 4321",
-        "Mon - Fri: 9:00 AM - 5:00 PM",
+        "+91 9745 222 294",
+        "+91 9947 567 161",
       ],
     },
     {
@@ -71,8 +70,7 @@ const ContactInfo = () => {
         />
       ),
       details: [
-        "info@imamgazzali.edu",
-        "admissions@imamgazzali.edu",
+        "imamgazzaliacademy@gmail.com",
         "Response within 24 hours",
       ],
     },
@@ -88,9 +86,8 @@ const ContactInfo = () => {
         />
       ),
       details: [
-        "Monday - Friday: 9:00 AM - 5:00 PM",
-        "Saturday: 9:00 AM - 1:00 PM",
-        "Friday: Closed",
+        "8:00 AM - 6:00 PM",
+        "24/7 Support",
       ],
     },
   ];

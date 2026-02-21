@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import Achievments from "./Achievments";
 
 const WhatWeOffer = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -14,7 +15,7 @@ const WhatWeOffer = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (sectionRef.current) {
@@ -27,10 +28,33 @@ const WhatWeOffer = () => {
   const offerings = [
     {
       id: 1,
-      title: "Ta'leem",
-      subtitle: "Education",
-      description:
-        "Comprehensive academic learning that combines traditional Islamic knowledge with modern scientific education.",
+      title:
+        "Alim al Gazzali degree along with degree from a recognized government university.",
+      icon: (
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+        />
+      ),
+    },
+    {
+      id: 2,
+      title:
+        "Multilingual studies, personality development and training in teaching, elocution and communication.",
+      icon: (
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+        />
+      ),
+    },
+    {
+      id: 3,
+      title: "Elaborate library, computer lab and research center.",
       icon: (
         <path
           strokeLinecap="round"
@@ -41,32 +65,26 @@ const WhatWeOffer = () => {
       ),
     },
     {
-      id: 2,
-      title: "Tarbiyah",
-      subtitle: "Character Building",
-      description:
-        "Holistic spiritual and moral development focused on nurturing ethical values, discipline, and Islamic character.",
+      id: 4,
+      title: "E-resource facility",
       icon: (
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
-          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+          d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
         />
       ),
     },
     {
-      id: 3,
-      title: "Da'wa",
-      subtitle: "Service & Outreach",
-      description:
-        "Active engagement in community service, leadership development, and spreading beneficial knowledge to society.",
+      id: 5,
+      title: "Vast campus with modern infrastructure facilities.",
       icon: (
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
-          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
         />
       ),
     },
@@ -102,29 +120,31 @@ const WhatWeOffer = () => {
                 : "opacity-0 translate-y-4"
             }`}
           >
-            A balanced educational system combining academic learning with
-            spiritual growth, mentorship, and character development through our
-            three core pillars
+            Discover the comprehensive facilities and programs that make Imam
+            Gazzali Academy a center of excellence in Islamic and modern
+            education
           </p>
         </div>
 
-        {/* Offerings Cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {offerings.map((offering, index) => (
-            <div
-              key={offering.id}
-              className={`group transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-12"
-              }`}
-              style={{ transitionDelay: `${600 + index * 200}ms` }}
-            >
-              <div className="relative h-full bg-white rounded-lg p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-b-4 border-(--accent-gold)">
+        {/* Offerings List */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {offerings.map((offering, index) => {
+            const isLastOdd =
+              offerings.length % 2 !== 0 && index === offerings.length - 1;
+            return (
+              <div
+                key={offering.id}
+                className={`flex items-center gap-4 ${isLastOdd && "md:col-span-2"} bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-l-4 border-(--accent-gold) ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-12"
+                }`}
+                style={{ transitionDelay: `${600 + index * 150}ms` }}
+              >
                 {/* Icon */}
-                <div className="w-16 h-16 rounded-full bg-linear-to-br from-(--primary-color) to-(--primary-color)/80 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-(--primary-color) to-(--primary-color)/80 flex items-center justify-center shadow-md">
                   <svg
-                    className="w-8 h-8 text-(--secondary-bg)"
+                    className="w-6 h-6 md:w-7 md:h-7 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -134,50 +154,17 @@ const WhatWeOffer = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl md:text-2xl font-['Playfair_Display'] font-semibold text-(--primary-color) mb-2">
-                  {offering.title}
-                </h3>
-                <p className="text-sm text-(--accent-gold) font-medium mb-4">
-                  {offering.subtitle}
-                </p>
-                <p className="text-[14px] md:text-[15px] text-gray-600 leading-relaxed">
-                  {offering.description}
-                </p>
-
-                {/* Decorative Element */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-(--accent-gold)/5 rounded-bl-full -z-10" />
+                <div className="flex-1">
+                  <p className="text-[14px] md:text-[15px] lg:text-[16px] text-(--primary-color) leading-relaxed font-medium">
+                    {offering.title}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Bottom Statement */}
-        <div
-          className={`mt-16 text-center transition-all duration-1000 delay-1400 ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-          }`}
-        >
-          <div className="bg-linear-to-r from-(--primary-color) to-(--primary-color)/90 rounded-lg p-8 md:p-12 text-white relative overflow-hidden">
-            {/* Background Pattern */}
-            <div
-              className="absolute inset-0 opacity-5 bg-center bg-repeat bg-size-[400px_400px]"
-              style={{ backgroundImage: "url('/vector.png')" }}
-            />
-            
-            <div className="relative z-10">
-              <h3 className="text-xl md:text-2xl font-['Playfair_Display'] font-semibold mb-4">
-                Holistic Development
-              </h3>
-              <p className="text-[15px] md:text-[16px] opacity-90 max-w-3xl mx-auto">
-                Through the integration of Ta'leem, Tarbiyah, and Da'wa, we
-                cultivate well-rounded individuals equipped with knowledge,
-                strong moral character, and a commitment to serving humanity.
-              </p>
-            </div>
-          </div>
-        </div>
+        <Achievments isVisible={isVisible} />
       </div>
     </div>
   );

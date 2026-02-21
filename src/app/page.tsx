@@ -7,6 +7,7 @@ import Image from "next/image";
 import LifeAtGazzali from "@/components/home/LifeAtGazzali";
 import DirectorVoice from "@/components/home/DirectorVoice";
 import FAQ from "@/components/contact/FAQ";
+import Objectives from "@/components/home/Objectives";
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
       <Hero />
       <StatusBar />
       <MissionVission />
+      <Objectives/>
       <LifeAtGazzali />
-      <DirectorVoice />
+      {/* <DirectorVoice /> */}
       <Admission />
       <Footer />
     </div>

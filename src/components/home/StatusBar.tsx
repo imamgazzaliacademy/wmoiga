@@ -10,7 +10,7 @@ const StatusBar = () => {
     { number: 1200, label: "Students Enrolled", suffix: "+" },
     { number: 30, label: "Expert Faculty", suffix: "+" },
     { number: 25, label: "Years of Excellence", suffix: "+" },
-    { number: 300, label: "Gazzali's", suffix: "+" },
+    { number: 200, label: "Gazzali's", suffix: "+" },
   ];
 
   useEffect(() => {

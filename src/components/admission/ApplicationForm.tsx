@@ -14,13 +14,20 @@ interface FormData {
   // Contact Information
   email: string;
   contactNumber: string;
+  whatsappNumber: string;
+  houseName: string;
   place: string;
-  address: string;
+  postOffice: string;
+  district: string;
+  state: string;
+  nationality: string;
   pincode: string;
 
   // Academic Information
   previousSchool: string;
   previousMadrasa: string;
+  previousSchoolClass: string;
+  previousMadrasaClass: string;
 
   // Guardian Information
   guardianName: string;
@@ -58,14 +65,21 @@ const ApplicationForm = () => {
     email: "",
     contactNumber: "",
     place: "",
-    address: "",
+    houseName: "",
+    nationality: "",
+    district: "",
+    postOffice: "",
+    state: "",
     pincode: "",
     previousSchool: "",
+    previousMadrasaClass: "",
+    previousSchoolClass: "",
     previousMadrasa: "",
     guardianName: "",
     guardianRelation: "",
     guardianContact: "",
     medicalConditions: "",
+    whatsappNumber: "",
   });
 
   useEffect(() => {
@@ -184,14 +198,21 @@ const ApplicationForm = () => {
         email: "",
         contactNumber: "",
         place: "",
-        address: "",
+        houseName: "",
+        nationality: "",
+        district: "",
+        postOffice: "",
+        state: "",
         pincode: "",
         previousSchool: "",
+        previousSchoolClass: "",
+        previousMadrasaClass: "",
         previousMadrasa: "",
         guardianName: "",
         guardianRelation: "",
         guardianContact: "",
         medicalConditions: "",
+        whatsappNumber: "",
       });
       setPhotoFile(null);
       setPhotoPreview("");
@@ -508,7 +529,6 @@ const ApplicationForm = () => {
                     >
                       <option value="">Select</option>
                       <option value="male">Male</option>
-                      <option value="female">Female</option>
                     </select>
                   </div>
                 </div>
@@ -523,25 +543,25 @@ const ApplicationForm = () => {
                 </h3>
 
                 {/* Email and Contact Number */}
+                <div>
+                  <label
+                    htmlFor="address"
+                    className="block text-sm font-semibold text-(--primary-color) mb-2"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-semibold text-(--primary-color) mb-2"
-                    >
-                      Email Address <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
-                      placeholder="your.email@example.com"
-                    />
-                  </div>
                   <div>
                     <label
                       htmlFor="contactNumber"
@@ -561,6 +581,25 @@ const ApplicationForm = () => {
                       placeholder="10-digit mobile number"
                     />
                   </div>
+                  <div>
+                    <label
+                      htmlFor="contactNumber"
+                      className="block text-sm font-semibold text-(--primary-color) mb-2"
+                    >
+                      Whatsapp Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      id="whatsappNumber"
+                      name="whatsappNumber"
+                      value={formData.whatsappNumber}
+                      onChange={handleChange}
+                      required
+                      pattern="[0-9]{10}"
+                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                      placeholder="10-digit mobile number"
+                    />
+                  </div>
                 </div>
 
                 {/* Address */}
@@ -571,39 +610,124 @@ const ApplicationForm = () => {
                   >
                     Full Address <span className="text-red-500">*</span>
                   </label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
-                    rows={3}
-                    className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors resize-none"
-                    placeholder="House/Flat No., Street, Locality"
-                  />
-                </div>
-
-                {/* Place and Pincode */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label
-                      htmlFor="place"
-                      className="block text-sm font-semibold text-(--primary-color) mb-2"
-                    >
-                      Place/City <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="place"
-                      name="place"
-                      value={formData.place}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
-                      placeholder="City/Town name"
-                    />
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        htmlFor="houseName"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        House Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="houseName"
+                        name="houseName"
+                        value={formData.houseName}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="House Name"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="place"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        Place<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="place"
+                        name="place"
+                        value={formData.place}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="Place"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="postOffice"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        Post Office <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="postOffice"
+                        name="postOffice"
+                        value={formData.postOffice}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="Post Office"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="district"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        District<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="district"
+                        name="district"
+                        value={formData.district}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="District"
+                      />
+                    </div>
                   </div>
-                  <div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 lg:grid-cols-3">
+                    <div>
+                      <label
+                        htmlFor="state"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        State <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="State"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="nationality"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        Nationality<span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="nationality"
+                        name="nationality"
+                        value={formData.nationality}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{10}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="Nationality"
+                      />
+                    </div>
+                    <div>
                     <label
                       htmlFor="pincode"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
@@ -622,7 +746,10 @@ const ApplicationForm = () => {
                       placeholder="6-digit pincode"
                     />
                   </div>
+                  </div>
                 </div>
+
+                
 
                 {/* Guardian Information */}
                 <div className="mt-8 pt-6 border-t-2 border-gray-200">

@@ -6,6 +6,7 @@ import { IoCall } from "react-icons/io5";
 import { SiGmail } from "react-icons/si";
 import Announcement from "./Announcement";
 import { facebook_url, instagram_url, youtube_url } from "@/lib/utils/config";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -13,8 +14,8 @@ const Footer = () => {
       <Announcement />
       <footer className="bg-(--primary-color) text-white px-6 lg:px-20 py-10 relative">
         <div
-          className="absolute inset-0  opacity-3 bg-center bg-no-repeat bg-cover"
-          style={{ backgroundImage: "url('/masjid.png')" }}
+          className="absolute inset-0  opacity-10 bg-center bg-no-repeat bg-cover"
+          style={{ backgroundImage: "url('/photos/4.jpg')" }}
         ></div>
         <div className="flex flex-col lg:flex-row lg:justify-between gap-12 z-10 mb-16">
           {/* Footer Info */}
@@ -30,6 +31,22 @@ const Footer = () => {
                 Empowering students to excel academically while upholding moral
                 integrity and spiritual depth in Koolivayal, Wayanad.
               </p>
+            </div>
+            <div className="flex gap-4 flex-wrap lg:mb-6">
+              <div className="flex gap-2 items-center bg-white px-4 py-2 rounded-[3px]">
+                <img src="/moulanaazad.png" className="w-10" alt="moula"/> 
+                <div className="text-(--text-dark)">
+                  <p className="text-[10px] font-semibold uppercase">Approved BY</p>
+                  <p className="text-[10px] leading-3">Moulana Azad <br /> National Urdu University</p>
+                </div>
+              </div>
+              <div className="flex gap-2 items-center bg-white px-4 py-2 rounded-[3px]">
+                <img src="/iuou.png" className="w-10" alt="moula"/> 
+                <div className="text-(--text-dark)">
+                  <p className="text-[10px] font-semibold uppercase">Member</p>
+                  <p className="text-[10px] leading-3">international union<br /> of universities</p>
+                </div>
+              </div>
             </div>
             <div className="flex gap-4">
               <Link
@@ -126,11 +143,11 @@ const Footer = () => {
                 </li>
                 <li className="mb-3 flex gap-2 items-center">
                   <IoCall className="fas fa-envelope text-(--accent-gold)" />
-                  <span>+91 4935 220 123</span>
+                  <span>+91 9745 222 294</span>
                 </li>
                 <li className="mb-3 flex gap-2 items-center">
                   <SiGmail className="fas fa-envelope text-(--accent-gold)" />
-                  <span>office@wmoigacademy.edu</span>
+                  <span>imamgazzaliacademy@gmail.com</span>
                 </li>
               </ul>
             </div>
