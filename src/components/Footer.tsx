@@ -15,7 +15,7 @@ const Footer = () => {
       <footer className="bg-(--primary-color) text-white px-6 lg:px-20 py-10 relative">
         <div
           className="absolute inset-0  opacity-10 bg-center bg-no-repeat bg-cover"
-          style={{ backgroundImage: "url('/photos/4.jpg')" }}
+          style={{ backgroundImage: "url('/photos/4.JPG')" }}
         ></div>
         <div className="flex flex-col lg:flex-row lg:justify-between gap-12 z-10 mb-16">
           {/* Footer Info */}
