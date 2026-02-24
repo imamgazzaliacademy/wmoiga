@@ -11,10 +11,10 @@ export default function AlumniPage() {
     <main className="min-h-screen">
       <AlumniHero />
       <AlumniStats />
-      {/* <FeaturedAlumni /> */}
-      {/* <AllAlumni /> */}
-      {/* <AlumniRegistration /> */}
-      <Footer/>
+      <FeaturedAlumni />
+      <AllAlumni />
+      <AlumniRegistration />
+      <Footer />
     </main>
   );
 }

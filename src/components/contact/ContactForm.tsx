@@ -1,5 +1,6 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
+import apiClient from "@/services/api";
+import { toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -58,22 +59,32 @@ const ContactForm = () => {
 
     // Simulate form submission
     try {
-      // Replace this with your actual form submission logic
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await apiClient.post('/send_mail', {
+        name: formData.name,
+        email: formData.email,
+        phone_number: formData.phone, // mapping phone to phone_number commonly used
+        subject: formData.subject,
+        message: formData.message,
+      });
 
-      // Success
-      setSubmitStatus({
-        type: "success",
-        message:
-          "Thank you for contacting us! We'll get back to you within 24 hours.",
-      });
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
+      if (response.data.success || response.status === 200) {
+        // Success
+        setSubmitStatus({
+          type: "success",
+          message:
+            "Thank you for contacting us! We'll get back to you within 24 hours.",
+        });
+        toast.success("Thank you for contacting us! We'll get back to you within 24 hours.");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        throw new Error("Failed to send message");
+      }
     } catch (error) {
       // Error
       setSubmitStatus({
@@ -81,6 +92,7 @@ const ContactForm = () => {
         message:
           "Something went wrong. Please try again or contact us directly.",
       });
+      toast.error("Something went wrong. Please try again or contact us directly.");
     } finally {
       setIsSubmitting(false);
     }
@@ -97,26 +109,23 @@ const ContactForm = () => {
         <div className="text-center mb-16">
           <div className="flex flex-col gap-2 items-center mb-6">
             <h2
-              className={`text-xl md:text-2xl lg:text-3xl uppercase font-semibold text-(--primary-color) transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
+              className={`text-xl md:text-2xl lg:text-3xl uppercase font-semibold text-(--primary-color) transition-all duration-1000 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+                }`}
             >
               Send Us a Message
             </h2>
             <span
-              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${
-                isVisible ? "w-20" : "w-0"
-              }`}
+              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${isVisible ? "w-20" : "w-0"
+                }`}
             />
           </div>
           <p
-            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
+            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+              }`}
           >
             Have questions? Fill out the form below and we'll respond as soon as
             possible.
@@ -125,11 +134,10 @@ const ContactForm = () => {
 
         {/* Form Container */}
         <div
-          className={`max-w-3xl mx-auto transition-all duration-1000 delay-600 ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-12"
-          }`}
+          className={`max-w-3xl mx-auto transition-all duration-1000 delay-600 ${isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-12"
+            }`}
         >
           <form
             onSubmit={handleSubmit}
@@ -248,19 +256,17 @@ const ContactForm = () => {
             {/* Submit Status */}
             {submitStatus.type && (
               <div
-                className={`mb-6 p-4 rounded-[5px] ${
-                  submitStatus.type === "success"
-                    ? "bg-green-50 border border-green-200 text-green-800"
-                    : "bg-red-50 border border-red-200 text-red-800"
-                }`}
+                className={`mb-6 p-4 rounded-[5px] ${submitStatus.type === "success"
+                  ? "bg-green-50 border border-green-200 text-green-800"
+                  : "bg-red-50 border border-red-200 text-red-800"
+                  }`}
               >
                 <div className="flex items-start gap-3">
                   <svg
-                    className={`w-5 h-5 mt-0.5 shrink-0 ${
-                      submitStatus.type === "success"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
+                    className={`w-5 h-5 mt-0.5 shrink-0 ${submitStatus.type === "success"
+                      ? "text-green-600"
+                      : "text-red-600"
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

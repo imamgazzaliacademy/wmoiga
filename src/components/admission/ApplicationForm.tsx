@@ -1,41 +1,43 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import apiClient from "@/services/api";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 interface FormData {
   // Personal Information
-  fullName: string;
-  fatherName: string;
-  motherName: string;
+  full_name: string;
+  father_name: string;
+  mother_name: string;
   age: string;
-  dateOfBirth: string;
+  date_of_birth: string;
   gender: string;
 
   // Contact Information
   email: string;
-  contactNumber: string;
-  whatsappNumber: string;
-  houseName: string;
+  contact_number: string;
+  whatsapp_number: string;
+  house_name: string;
   place: string;
-  postOffice: string;
+  post_office: string;
   district: string;
   state: string;
   nationality: string;
   pincode: string;
 
   // Academic Information
-  previousSchool: string;
-  previousMadrasa: string;
-  previousSchoolClass: string;
-  previousMadrasaClass: string;
+  previous_school: string;
+  previous_madrasa: string;
+  previous_schoolClass: string;
+  previous_madrasaClass: string;
 
   // Guardian Information
-  guardianName: string;
-  guardianRelation: string;
-  guardianContact: string;
+  guardian_name: string;
+  guardian_relation: string;
+  guardian_contact: string;
 
   // Additional
-  medicalConditions: string;
+  medical_conditions: string;
 }
 
 const ApplicationForm = () => {
@@ -56,30 +58,30 @@ const ApplicationForm = () => {
   const [certificateFile, setCertificateFile] = useState<File | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    fatherName: "",
-    motherName: "",
+    full_name: "",
+    father_name: "",
+    mother_name: "",
     age: "",
-    dateOfBirth: "",
+    date_of_birth: "",
     gender: "",
     email: "",
-    contactNumber: "",
+    contact_number: "",
     place: "",
-    houseName: "",
+    house_name: "",
     nationality: "",
     district: "",
-    postOffice: "",
+    post_office: "",
     state: "",
     pincode: "",
-    previousSchool: "",
-    previousMadrasaClass: "",
-    previousSchoolClass: "",
-    previousMadrasa: "",
-    guardianName: "",
-    guardianRelation: "",
-    guardianContact: "",
-    medicalConditions: "",
-    whatsappNumber: "",
+    previous_school: "",
+    previous_madrasaClass: "",
+    previous_schoolClass: "",
+    previous_madrasa: "",
+    guardian_name: "",
+    guardian_relation: "",
+    guardian_contact: "",
+    medical_conditions: "",
+    whatsapp_number: "",
   });
 
   useEffect(() => {
@@ -101,13 +103,41 @@ const ApplicationForm = () => {
     return () => observer.disconnect();
   }, []);
 
+  const calculateAge = (dob: string) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  };
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => {
+      if (name === "date_of_birth") {
+        return {
+          ...prev,
+          date_of_birth: value,
+          age: calculateAge(value).toString(),
+        };
+      }
+
+      return { ...prev, [name]: value };
+    });
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,66 +196,74 @@ const ApplicationForm = () => {
     setSubmitStatus({ type: null, message: "" });
 
     try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Here you would normally send the form data and files to your backend
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         formDataToSend.append(key, value);
       });
 
       if (photoFile) formDataToSend.append("photo", photoFile);
-      if (aadhaarFile) formDataToSend.append("aadhaar", aadhaarFile);
-      if (tcFile) formDataToSend.append("tc", tcFile);
+      if (aadhaarFile) formDataToSend.append("aadhaar_copy", aadhaarFile);
+      if (tcFile) formDataToSend.append("birth_certificate", tcFile); // map tc to birth cert
       if (certificateFile)
-        formDataToSend.append("certificate", certificateFile);
+        formDataToSend.append("madrasa_certificate", certificateFile);
 
-      setSubmitStatus({
-        type: "success",
-        message:
-          "Application submitted successfully! Your registration number is #ADM2026001. Please save it for future reference.",
+      const response = await apiClient.post('/submit_application', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      // Reset form
-      setFormData({
-        fullName: "",
-        fatherName: "",
-        motherName: "",
-        age: "",
-        dateOfBirth: "",
-        gender: "",
-        email: "",
-        contactNumber: "",
-        place: "",
-        houseName: "",
-        nationality: "",
-        district: "",
-        postOffice: "",
-        state: "",
-        pincode: "",
-        previousSchool: "",
-        previousSchoolClass: "",
-        previousMadrasaClass: "",
-        previousMadrasa: "",
-        guardianName: "",
-        guardianRelation: "",
-        guardianContact: "",
-        medicalConditions: "",
-        whatsappNumber: "",
-      });
-      setPhotoFile(null);
-      setPhotoPreview("");
-      setAadhaarFile(null);
-      setTcFile(null);
-      setCertificateFile(null);
-      setCurrentStep(1);
+      if (response.data.success || response.status === 200 || response.status === 201) {
+        setSubmitStatus({
+          type: "success",
+          message:
+            "Application submitted successfully! Please save it for future reference.",
+        });
+        toast.success("Application submitted successfully! Please save it for future reference.");
+
+        // Reset form
+        setFormData({
+          full_name: "",
+          father_name: "",
+          mother_name: "",
+          age: "",
+          date_of_birth: "",
+          gender: "",
+          email: "",
+          contact_number: "",
+          place: "",
+          house_name: "",
+          nationality: "",
+          district: "",
+          post_office: "",
+          state: "",
+          pincode: "",
+          previous_school: "",
+          previous_schoolClass: "",
+          previous_madrasaClass: "",
+          previous_madrasa: "",
+          guardian_name: "",
+          guardian_relation: "",
+          guardian_contact: "",
+          medical_conditions: "",
+          whatsapp_number: "",
+        });
+        setPhotoFile(null);
+        setPhotoPreview("");
+        setAadhaarFile(null);
+        setTcFile(null);
+        setCertificateFile(null);
+        setCurrentStep(1);
+      } else {
+        throw new Error("Application submission failed");
+      }
     } catch (error) {
       setSubmitStatus({
         type: "error",
         message:
           "Something went wrong. Please try again or contact admissions office.",
       });
+      toast.error("Something went wrong. Please try again or contact admissions office.");
     } finally {
       setIsSubmitting(false);
     }
@@ -249,26 +287,23 @@ const ApplicationForm = () => {
         <div className="text-center mb-12">
           <div className="flex flex-col gap-2 items-center mb-6">
             <h2
-              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
+              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+                }`}
             >
               Application Form
             </h2>
             <span
-              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${
-                isVisible ? "w-20" : "w-0"
-              }`}
+              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${isVisible ? "w-20" : "w-0"
+                }`}
             />
           </div>
           <p
-            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
+            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+              }`}
           >
             Fill out the form below to apply for admission. All fields marked
             with * are required.
@@ -277,22 +312,20 @@ const ApplicationForm = () => {
 
         {/* Progress Indicator */}
         <div
-          className={`mb-12 transition-all duration-1000 delay-600 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`mb-12 transition-all duration-1000 delay-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
         >
           <div className="flex items-center justify-between max-w-2xl mx-auto">
             {steps.map((step, index) => (
               <div key={index} className="flex items-center flex-1">
                 <div className="flex flex-col items-center flex-1">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${
-                      currentStep > index + 1
-                        ? "bg-(--accent-gold) text-white"
-                        : currentStep === index + 1
-                          ? "bg-(--primary-color) text-white ring-4 ring-(--accent-gold)/30"
-                          : "bg-gray-200 text-gray-500"
-                    }`}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${currentStep > index + 1
+                      ? "bg-(--accent-gold) text-white"
+                      : currentStep === index + 1
+                        ? "bg-(--primary-color) text-white ring-4 ring-(--accent-gold)/30"
+                        : "bg-gray-200 text-gray-500"
+                      }`}
                   >
                     {currentStep > index + 1 ? (
                       <svg
@@ -318,11 +351,10 @@ const ApplicationForm = () => {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`h-1 flex-1 mx-2 transition-all duration-300 ${
-                      currentStep > index + 1
-                        ? "bg-(--accent-gold)"
-                        : "bg-gray-200"
-                    }`}
+                    className={`h-1 flex-1 mx-2 transition-all duration-300 ${currentStep > index + 1
+                      ? "bg-(--accent-gold)"
+                      : "bg-gray-200"
+                      }`}
                   />
                 )}
               </div>
@@ -332,9 +364,8 @@ const ApplicationForm = () => {
 
         {/* Form */}
         <div
-          className={`bg-white rounded-lg shadow-2xl p-8 md:p-10 transition-all duration-1000 delay-800 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`bg-white rounded-lg shadow-2xl p-8 md:p-10 transition-all duration-1000 delay-800 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            }`}
         >
           <form onSubmit={handleSubmit}>
             {/* Step 1: Personal Details */}
@@ -416,16 +447,16 @@ const ApplicationForm = () => {
                 {/* Full Name */}
                 <div>
                   <label
-                    htmlFor="fullName"
+                    htmlFor="full_name"
                     className="block text-sm font-semibold text-(--primary-color) mb-2"
                   >
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={formData.fullName}
+                    id="full_name"
+                    name="full_name"
+                    value={formData.full_name}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -437,16 +468,16 @@ const ApplicationForm = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label
-                      htmlFor="fatherName"
+                      htmlFor="father_name"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Father's Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      id="fatherName"
-                      name="fatherName"
-                      value={formData.fatherName}
+                      id="father_name"
+                      name="father_name"
+                      value={formData.father_name}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -455,16 +486,16 @@ const ApplicationForm = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="motherName"
+                      htmlFor="mother_name"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Mother's Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      id="motherName"
-                      name="motherName"
-                      value={formData.motherName}
+                      id="mother_name"
+                      name="mother_name"
+                      value={formData.mother_name}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -477,16 +508,16 @@ const ApplicationForm = () => {
                 <div className="grid md:grid-cols-3 gap-6">
                   <div>
                     <label
-                      htmlFor="dateOfBirth"
+                      htmlFor="date_of_birth"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Date of Birth <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="date"
-                      id="dateOfBirth"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
+                      id="date_of_birth"
+                      name="date_of_birth"
+                      value={formData.date_of_birth}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -564,16 +595,16 @@ const ApplicationForm = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label
-                      htmlFor="contactNumber"
+                      htmlFor="contact_number"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Contact Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
-                      id="contactNumber"
-                      name="contactNumber"
-                      value={formData.contactNumber}
+                      id="contact_number"
+                      name="contact_number"
+                      value={formData.contact_number}
                       onChange={handleChange}
                       required
                       pattern="[0-9]{10}"
@@ -583,16 +614,16 @@ const ApplicationForm = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="contactNumber"
+                      htmlFor="contact_number"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Whatsapp Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
-                      id="whatsappNumber"
-                      name="whatsappNumber"
-                      value={formData.whatsappNumber}
+                      id="whatsapp_number"
+                      name="whatsapp_number"
+                      value={formData.whatsapp_number}
                       onChange={handleChange}
                       required
                       pattern="[0-9]{10}"
@@ -613,16 +644,16 @@ const ApplicationForm = () => {
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label
-                        htmlFor="houseName"
+                        htmlFor="house_name"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
                         House Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
-                        id="houseName"
-                        name="houseName"
-                        value={formData.houseName}
+                        id="house_name"
+                        name="house_name"
+                        value={formData.house_name}
                         onChange={handleChange}
                         required
                         pattern="[0-9]{10}"
@@ -651,16 +682,16 @@ const ApplicationForm = () => {
                     </div>
                     <div>
                       <label
-                        htmlFor="postOffice"
+                        htmlFor="post_office"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
                         Post Office <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
-                        id="postOffice"
-                        name="postOffice"
-                        value={formData.postOffice}
+                        id="post_office"
+                        name="post_office"
+                        value={formData.post_office}
                         onChange={handleChange}
                         required
                         pattern="[0-9]{10}"
@@ -728,28 +759,28 @@ const ApplicationForm = () => {
                       />
                     </div>
                     <div>
-                    <label
-                      htmlFor="pincode"
-                      className="block text-sm font-semibold text-(--primary-color) mb-2"
-                    >
-                      Pincode <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="pincode"
-                      name="pincode"
-                      value={formData.pincode}
-                      onChange={handleChange}
-                      required
-                      pattern="[0-9]{6}"
-                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
-                      placeholder="6-digit pincode"
-                    />
-                  </div>
+                      <label
+                        htmlFor="pincode"
+                        className="block text-sm font-semibold text-(--primary-color) mb-2"
+                      >
+                        Pincode <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="pincode"
+                        name="pincode"
+                        value={formData.pincode}
+                        onChange={handleChange}
+                        required
+                        pattern="[0-9]{6}"
+                        className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                        placeholder="6-digit pincode"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                
+
 
                 {/* Guardian Information */}
                 <div className="mt-8 pt-6 border-t-2 border-gray-200">
@@ -759,16 +790,16 @@ const ApplicationForm = () => {
                   <div className="grid md:grid-cols-3 gap-6">
                     <div>
                       <label
-                        htmlFor="guardianName"
+                        htmlFor="guardian_name"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
                         Guardian Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
-                        id="guardianName"
-                        name="guardianName"
-                        value={formData.guardianName}
+                        id="guardian_name"
+                        name="guardian_name"
+                        value={formData.guardian_name}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -777,15 +808,15 @@ const ApplicationForm = () => {
                     </div>
                     <div>
                       <label
-                        htmlFor="guardianRelation"
+                        htmlFor="guardian_relation"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
                         Relation <span className="text-red-500">*</span>
                       </label>
                       <select
-                        id="guardianRelation"
-                        name="guardianRelation"
-                        value={formData.guardianRelation}
+                        id="guardian_relation"
+                        name="guardian_relation"
+                        value={formData.guardian_relation}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -800,16 +831,16 @@ const ApplicationForm = () => {
                     </div>
                     <div>
                       <label
-                        htmlFor="guardianContact"
+                        htmlFor="guardian_contact"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
                         Guardian Contact <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="tel"
-                        id="guardianContact"
-                        name="guardianContact"
-                        value={formData.guardianContact}
+                        id="guardian_contact"
+                        name="guardian_contact"
+                        value={formData.guardian_contact}
                         onChange={handleChange}
                         required
                         pattern="[0-9]{10}"
@@ -833,7 +864,7 @@ const ApplicationForm = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label
-                      htmlFor="previousSchool"
+                      htmlFor="previous_school"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Previous School
@@ -841,9 +872,9 @@ const ApplicationForm = () => {
                     </label>
                     <input
                       type="text"
-                      id="previousSchool"
-                      name="previousSchool"
-                      value={formData.previousSchool}
+                      id="previous_school"
+                      name="previous_school"
+                      value={formData.previous_school}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -852,7 +883,7 @@ const ApplicationForm = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="previousSchool"
+                      htmlFor="previous_madrasa"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
                       Previous Madrasa
@@ -860,9 +891,9 @@ const ApplicationForm = () => {
                     </label>
                     <input
                       type="text"
-                      id="previousSchool"
-                      name="previousSchool"
-                      value={formData.previousSchool}
+                      id="previous_madrasa"
+                      name="previous_madrasa"
+                      value={formData.previous_madrasa}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
@@ -874,15 +905,15 @@ const ApplicationForm = () => {
                 {/* Medical Conditions */}
                 <div>
                   <label
-                    htmlFor="medicalConditions"
+                    htmlFor="medical_conditions"
                     className="block text-sm font-semibold text-(--primary-color) mb-2"
                   >
                     Medical Conditions (if any)
                   </label>
                   <textarea
-                    id="medicalConditions"
-                    name="medicalConditions"
-                    value={formData.medicalConditions}
+                    id="medical_conditions"
+                    name="medical_conditions"
+                    value={formData.medical_conditions}
                     onChange={handleChange}
                     rows={3}
                     className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors resize-none"
@@ -1045,19 +1076,17 @@ const ApplicationForm = () => {
             {/* Submit Status */}
             {submitStatus.type && (
               <div
-                className={`mt-6 p-4 rounded-[5px] ${
-                  submitStatus.type === "success"
-                    ? "bg-green-50 border border-green-200 text-green-800"
-                    : "bg-red-50 border border-red-200 text-red-800"
-                }`}
+                className={`mt-6 p-4 rounded-[5px] ${submitStatus.type === "success"
+                  ? "bg-green-50 border border-green-200 text-green-800"
+                  : "bg-red-50 border border-red-200 text-red-800"
+                  }`}
               >
                 <div className="flex items-start gap-3">
                   <svg
-                    className={`w-5 h-5 mt-0.5 shrink-0 ${
-                      submitStatus.type === "success"
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
+                    className={`w-5 h-5 mt-0.5 shrink-0 ${submitStatus.type === "success"
+                      ? "text-green-600"
+                      : "text-red-600"
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

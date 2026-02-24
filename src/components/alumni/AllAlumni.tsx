@@ -1,5 +1,7 @@
-"use client";
+"use client"
 import React, { useEffect, useRef, useState } from "react";
+import apiClient from "@/services/api";
+import { toast } from "react-toastify";
 
 interface Alumni {
   id: number;
@@ -39,131 +41,33 @@ const AllAlumni = () => {
     return () => observer.disconnect();
   }, []);
 
-  const allAlumni: Alumni[] = [
-    {
-      id: 1,
-      name: "Dr. Ahmed Rahman",
-      batch: "2010",
-      currentPosition: "Senior Research Scholar",
-      organization: "Oxford University",
-      location: "Oxford, UK",
-      field: "Islamic Studies",
-      email: "ahmed.rahman@example.com",
-      linkedin: "#",
-    },
-    {
-      id: 2,
-      name: "Fatima Al-Hassan",
-      batch: "2012",
-      currentPosition: "Community Development Director",
-      organization: "Islamic Relief Worldwide",
-      location: "Birmingham, UK",
-      field: "Humanitarian Work",
-      email: "fatima.hassan@example.com",
-      linkedin: "#",
-    },
-    {
-      id: 3,
-      name: "Ibrahim Malik",
-      batch: "2008",
-      currentPosition: "Founder & CEO",
-      organization: "Halal Tech Solutions",
-      location: "Dubai, UAE",
-      field: "Technology",
-      email: "ibrahim.malik@example.com",
-    },
-    {
-      id: 4,
-      name: "Aisha Begum",
-      batch: "2015",
-      currentPosition: "Islamic Education Coordinator",
-      organization: "Malaysian Ministry of Education",
-      location: "Kuala Lumpur, Malaysia",
-      field: "Education",
-      email: "aisha.begum@example.com",
-    },
-    {
-      id: 5,
-      name: "Muhammad Yusuf",
-      batch: "2011",
-      currentPosition: "Imam & Community Leader",
-      organization: "Central Mosque of Toronto",
-      location: "Toronto, Canada",
-      field: "Religious Leadership",
-      email: "muhammad.yusuf@example.com",
-    },
-    {
-      id: 6,
-      name: "Zainab Khan",
-      batch: "2013",
-      currentPosition: "Human Rights Advocate",
-      organization: "United Nations",
-      location: "Geneva, Switzerland",
-      field: "Human Rights",
-      email: "zainab.khan@example.com",
-      linkedin: "#",
-    },
-    {
-      id: 7,
-      name: "Omar Farooq",
-      batch: "2014",
-      currentPosition: "Software Engineer",
-      organization: "Microsoft",
-      location: "Seattle, USA",
-      field: "Technology",
-      email: "omar.farooq@example.com",
-    },
-    {
-      id: 8,
-      name: "Maryam Siddiqui",
-      batch: "2016",
-      currentPosition: "Medical Doctor",
-      organization: "Royal London Hospital",
-      location: "London, UK",
-      field: "Healthcare",
-      email: "maryam.siddiqui@example.com",
-    },
-    {
-      id: 9,
-      name: "Hassan Abdullah",
-      batch: "2009",
-      currentPosition: "Islamic Finance Consultant",
-      organization: "HSBC Amanah",
-      location: "Riyadh, Saudi Arabia",
-      field: "Finance",
-      email: "hassan.abdullah@example.com",
-    },
-    {
-      id: 10,
-      name: "Nadia Ahmed",
-      batch: "2017",
-      currentPosition: "Research Assistant",
-      organization: "Cambridge University",
-      location: "Cambridge, UK",
-      field: "Islamic Studies",
-      email: "nadia.ahmed@example.com",
-    },
-    {
-      id: 11,
-      name: "Khalid Mansoor",
-      batch: "2010",
-      currentPosition: "Architect",
-      organization: "Al-Furqan Design Studio",
-      location: "Istanbul, Turkey",
-      field: "Architecture",
-      email: "khalid.mansoor@example.com",
-    },
-    {
-      id: 12,
-      name: "Amina Qureshi",
-      batch: "2015",
-      currentPosition: "Teacher",
-      organization: "International Islamic School",
-      location: "Doha, Qatar",
-      field: "Education",
-      email: "amina.qureshi@example.com",
-    },
-  ];
+  const [allAlumni, setAllAlumni] = useState<Alumni[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAlumni = async () => {
+      try {
+        const response = await apiClient.get('/get_all_alumni');
+        if (response.data.success) {
+          const mappedAlumni = response.data.data.map((item: any) => ({
+            ...item,
+            currentPosition: item.profession || item.currentPosition || 'Alumni',
+            field: item.field || 'General',
+            location: item.location || 'Unknown',
+            email: item.email || '',
+            organization: item.organization || '',
+          }));
+          setAllAlumni(mappedAlumni);
+        }
+      } catch (error) {
+        console.error("Failed to fetch all alumni:", error);
+        toast.error("Failed to load alumni data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAlumni();
+  }, []);
 
   // Get unique batches and fields for filters
   const batches = [...new Set(allAlumni.map((a) => a.batch))].sort(
@@ -194,26 +98,23 @@ const AllAlumni = () => {
         <div className="text-center mb-12">
           <div className="flex flex-col gap-2 items-center mb-6">
             <h2
-              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
+              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-4"
+                }`}
             >
               All Alumni
             </h2>
             <span
-              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${
-                isVisible ? "w-20" : "w-0"
-              }`}
+              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${isVisible ? "w-20" : "w-0"
+                }`}
             />
           </div>
           <p
-            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
+            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+              }`}
           >
             Connect with our alumni community across the globe
           </p>
@@ -221,11 +122,10 @@ const AllAlumni = () => {
 
         {/* Search and Filter Section */}
         <div
-          className={`bg-(--secondary-bg) rounded-lg p-6 mb-12 shadow-lg transition-all duration-1000 delay-600 ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-8"
-          }`}
+          className={`bg-(--secondary-bg) rounded-lg p-6 mb-12 shadow-lg transition-all duration-1000 delay-600 ${isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+            }`}
         >
           <div className="grid md:grid-cols-3 gap-4">
             {/* Search */}
@@ -315,16 +215,26 @@ const AllAlumni = () => {
         </div>
 
         {/* Alumni Grid */}
-        {filteredAlumni.length > 0 ? (
+        {loading ? (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="bg-(--secondary-bg) rounded-lg p-6 shadow-lg h-48 animate-pulse flex flex-col border-l-4 border-gray-300">
+                <div className="h-6 bg-gray-300 rounded w-1/2 mb-4"></div>
+                <div className="h-4 bg-gray-300 rounded w-1/4 mb-4"></div>
+                <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded w-1/2 mt-auto"></div>
+              </div>
+            ))}
+          </div>
+        ) : filteredAlumni.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAlumni.map((alumni, index) => (
               <div
                 key={alumni.id}
-                className={`transition-all duration-1000 ${
-                  isVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-12"
-                }`}
+                className={`transition-all duration-1000 ${isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-12"
+                  }`}
                 style={{ transitionDelay: `${800 + index * 50}ms` }}
               >
                 <div className="bg-(--secondary-bg) rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col border-l-4 border-(--accent-gold)">
