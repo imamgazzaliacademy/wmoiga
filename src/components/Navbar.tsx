@@ -234,7 +234,7 @@ const Navbar = () => {
               }}
               className="mt-2 w-full h-12 gold-button rounded-[5px] text-[15px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300"
             >
-              Apply Now
+              {"Apply Now"}
             </button>
           </nav>
         </div>
