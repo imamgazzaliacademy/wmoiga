@@ -239,7 +239,7 @@ const Navbar = () => {
           </nav>
         </div>
       </div>
-      {!isScrolled && <div className="top-16 fixed z-50 w-screen">
+      {!isScrolled && <div className="top-16 fixed z-50 w-screen md:block hidden">
         <Announcement />
       </div>}
     </>
