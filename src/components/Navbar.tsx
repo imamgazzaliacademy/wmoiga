@@ -51,7 +51,7 @@ const Navbar = () => {
     { title: "Alumni", href: "/alumni" },
     { title: "Contact Us", href: "/contact" },
     // {title: "Examination",href:"/examination"},
-    { title: "Gallery", href: "/gallery" },
+    // { title: "Gallery", href: "/gallery" },
   ];
 
   const handleHome = () => router.push("/");
@@ -64,10 +64,9 @@ const Navbar = () => {
         className={`
           fixed top-0 left-1/2 -translate-x-1/2 z-50
           transition-all duration-500 ease-in-out mobile-menu-container
-          ${
-            isScrolled
-              ? "w-screen sm:px-4 md:w-[85%] lg:w-[80%] xl:w-[75%] top-0 md:top-4 md:rounded-full md:backdrop-blur-md bg-white md:bg-white/70 md:hadow-lg md:border border-(--accent-gold)"
-              : "w-screen top-0 rounded-none bg-white  shadow-sm sm:px-6 lg:px-8"
+          ${isScrolled
+            ? "w-screen sm:px-4 md:w-[85%] lg:w-[80%] xl:w-[75%] top-0 md:top-4 md:rounded-full md:backdrop-blur-md bg-white md:bg-white/70 md:hadow-lg md:border border-(--accent-gold)"
+            : "w-screen top-0 rounded-none bg-white  shadow-sm sm:px-6 lg:px-8"
           }
           h-16 px-4 
           flex items-center justify-between
@@ -127,19 +126,16 @@ const Navbar = () => {
         >
           <div className="w-6 h-5 flex flex-col justify-between">
             <span
-              className={`w-full h-0.5 bg-current transition-all duration-300 ${
-                isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
-              }`}
+              className={`w-full h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
             ></span>
             <span
-              className={`w-full h-0.5 bg-current transition-all duration-300 ${
-                isMobileMenuOpen ? "opacity-0" : ""
-              }`}
+              className={`w-full h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""
+                }`}
             ></span>
             <span
-              className={`w-full h-0.5 bg-current transition-all duration-300 ${
-                isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
+              className={`w-full h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
             ></span>
           </div>
         </button>
@@ -164,9 +160,8 @@ const Navbar = () => {
       >
         {/* Backdrop */}
         <div
-          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-            isMobileMenuOpen ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100" : "opacity-0"
+            }`}
           onClick={() => setIsMobileMenuOpen(false)}
         ></div>
 
@@ -176,10 +171,9 @@ const Navbar = () => {
             absolute top-20 right-4 w-[90%] max-w-sm
             bg-white rounded-2xl shadow-2xl
             transition-all duration-300 transform
-            ${
-              isMobileMenuOpen
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-4"
+            ${isMobileMenuOpen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 -translate-y-4"
             }
           `}
         >

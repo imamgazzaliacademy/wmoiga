@@ -28,8 +28,8 @@ interface FormData {
   // Academic Information
   previous_school: string;
   previous_madrasa: string;
-  previous_schoolClass: string;
-  previous_madrasaClass: string;
+  previous_school_class: string;
+  previous_madrasa_class: string;
 
   // Guardian Information
   guardian_name: string;
@@ -74,8 +74,8 @@ const ApplicationForm = () => {
     state: "",
     pincode: "",
     previous_school: "",
-    previous_madrasaClass: "",
-    previous_schoolClass: "",
+    previous_madrasa_class: "",
+    previous_school_class: "",
     previous_madrasa: "",
     guardian_name: "",
     guardian_relation: "",
@@ -239,8 +239,8 @@ const ApplicationForm = () => {
           state: "",
           pincode: "",
           previous_school: "",
-          previous_schoolClass: "",
-          previous_madrasaClass: "",
+          previous_school_class: "",
+          previous_madrasa_class: "",
           previous_madrasa: "",
           guardian_name: "",
           guardian_relation: "",
@@ -883,6 +883,27 @@ const ApplicationForm = () => {
                   </div>
                   <div>
                     <label
+                      htmlFor="previous_school_class"
+                      className="block text-sm font-semibold text-(--primary-color) mb-2"
+                    >
+                      Previous School Class
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="previous_school_class"
+                      name="previous_school_class"
+                      value={formData.previous_school_class}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                      placeholder="Previous School Class"
+                    />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label
                       htmlFor="previous_madrasa"
                       className="block text-sm font-semibold text-(--primary-color) mb-2"
                     >
@@ -900,6 +921,25 @@ const ApplicationForm = () => {
                       placeholder="Name of previous institution"
                     />
                   </div>
+                  <div>
+                    <label
+                      htmlFor="previous_madrasa_class"
+                      className="block text-sm font-semibold text-(--primary-color) mb-2"
+                    >
+                      Previous Madrasa Class
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="previous_madrasa_class"
+                      name="previous_madrasa_class"
+                      value={formData.previous_madrasa_class}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
+                      placeholder="Previous Madrasa Class"
+                    />
+                  </div>
                 </div>
 
                 {/* Medical Conditions */}
@@ -908,7 +948,7 @@ const ApplicationForm = () => {
                     htmlFor="medical_conditions"
                     className="block text-sm font-semibold text-(--primary-color) mb-2"
                   >
-                    Medical Conditions (if any)
+                    {"Medical Conditions (if any)"}
                   </label>
                   <textarea
                     id="medical_conditions"
@@ -936,7 +976,7 @@ const ApplicationForm = () => {
                     Aadhaar Card Copy <span className="text-red-500">*</span>
                   </label>
                   <div className="flex items-center gap-4">
-                    <label className="cursor-pointer px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
+                    <label className="cursor-pointer shrink-0 px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -947,9 +987,9 @@ const ApplicationForm = () => {
                       Choose File
                     </label>
                     {aadhaarFile && (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
+                      <div className="flex items-center truncate gap-2 text-sm text-green-600">
                         <svg
-                          className="w-5 h-5"
+                          className="w-5 h-5 shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -973,10 +1013,10 @@ const ApplicationForm = () => {
                 {/* School TC */}
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-(--accent-gold) transition-colors">
                   <label className="block text-sm font-semibold text-(--primary-color) mb-3">
-                    School Transfer Certificate (if available)
+                    {"School Transfer Certificate (if available)"}
                   </label>
                   <div className="flex items-center gap-4">
-                    <label className="cursor-pointer px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
+                    <label className="cursor-pointer shrink-0 px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -986,9 +1026,9 @@ const ApplicationForm = () => {
                       Choose File
                     </label>
                     {tcFile && (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
+                      <div className="flex items-center gap-2 truncate text-sm text-green-600">
                         <svg
-                          className="w-5 h-5"
+                          className="w-5 h-5 shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -1012,10 +1052,10 @@ const ApplicationForm = () => {
                 {/* Madrasa Certificate */}
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-(--accent-gold) transition-colors">
                   <label className="block text-sm font-semibold text-(--primary-color) mb-3">
-                    Madrasa 5th Certificate (if applicable)
+                    {"Madrasa 5th Certificate (if applicable)"}
                   </label>
                   <div className="flex items-center gap-4">
-                    <label className="cursor-pointer px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
+                    <label className="cursor-pointer shrink-0 px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
                       <input
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png"
@@ -1025,9 +1065,9 @@ const ApplicationForm = () => {
                       Choose File
                     </label>
                     {certificateFile && (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
+                      <div className="flex items-center gap-2 text-sm truncate text-green-600">
                         <svg
-                          className="w-5 h-5"
+                          className="w-5 h-5 shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"

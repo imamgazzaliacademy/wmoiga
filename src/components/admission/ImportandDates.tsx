@@ -71,6 +71,8 @@ const ImportantDates = () => {
     }
   };
 
+  if (!loading && dates.length <= 0) return null
+
   return (
     <div
       ref={sectionRef}
@@ -146,7 +148,7 @@ const ImportantDates = () => {
                     <div className="bg-white rounded-lg p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-(--accent-gold)">
                       <div className="flex items-start justify-between gap-4 mb-3">
                         <h3 className="text-lg font-semibold text-(--primary-color)">
-                          {item.title || item.event}
+                          {item.event_name}
                         </h3>
                         <span
                           className={`px-3 py-1 rounded-full text-xs font-semibold border ${getStatusColor(
@@ -171,7 +173,7 @@ const ImportantDates = () => {
                           />
                         </svg>
                         <span className="text-sm font-medium text-gray-600">
-                          {item.date}
+                          {item.event_date}
                         </span>
                       </div>
                     </div>

@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef, useState } from "react";
 import apiClient from "@/services/api";
 import { toast } from "react-toastify";
