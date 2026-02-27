@@ -39,14 +39,14 @@ const Admission = () => {
         ></div>
         {/* Image Section - Left Side */}
         <div
-          className={`relative w-full md:w-120 h-100 transition-all duration-1000 ${
+          className={`relative w-full md:w-120 h-120 transition-all duration-1000 ${
             isVisible
               ? "opacity-100 translate-x-0"
               : "opacity-0 -translate-x-12"
           }`}
         >
           <img
-            src="/students2.png"
+            src="/std1.png"
             alt="Students"
             className="w-full h-full object-contain object-bottom"
           />
