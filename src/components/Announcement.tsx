@@ -18,6 +18,23 @@ const Announcement = () => {
         if (response.data.success && response.data.data.length > 0) {
           setAnnouncements(response.data.data);
         }
+
+        
+         const regNo = "IGA/001/2026"
+          if (regNo) {
+            const pdfResponse = await apiClient.get<Blob>(`/download_application_pdf?regNo=${regNo}`, {
+              responseType: 'blob'
+            });
+
+            const url = window.URL.createObjectURL(new Blob([pdfResponse.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Application_${regNo}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }
       } catch (error) {
         console.error("Failed to fetch announcements:", error);
       }

@@ -3,60 +3,67 @@ import { NextRequest } from "next/server";
 const BACKEND_URL = process.env.BACKEND_API_URL || "http://localhost:5000";
 
 async function handleProxy(
-  request: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> },
+    request: NextRequest,
+    { params }: { params: Promise<{ path: string[] }> },
 ) {
-  try {
-    const { path } = await params;
-    const urlPath = path.join("/");
-    const searchParams = request.nextUrl.search;
+    try {
+        const { path } = await params;
+        const urlPath = path.join("/");
+        const searchParams = request.nextUrl.search;
 
-    // Construct the backend URL
-    // Public routes in the backend are prefixed with /api
-    const backendUrl = `${BACKEND_URL}/api/${urlPath}${searchParams}`;
+        // Construct the backend URL
+        // Public routes in the backend are prefixed with /api
+        const backendUrl = `${BACKEND_URL}/api/${urlPath}${searchParams}`;
 
-    // Forward the headers, omitting 'host' to avoid backend host mismatch issues
-    const headers = new Headers(request.headers);
-    headers.delete("host");
+        // Forward the headers, omitting 'host' to avoid backend host mismatch issues
+        const headers = new Headers(request.headers);
+        headers.delete("host");
 
-    const fetchOptions: RequestInit & { duplex?: "half" } = {
-      method: request.method,
-      headers,
-    };
+        const fetchOptions: RequestInit & { duplex?: "half" } = {
+            method: request.method,
+            headers,
+        };
 
-    // Forward the stream body directly
-    if (request.method !== "GET" && request.method !== "HEAD" && request.body) {
-      fetchOptions.body = request.body;
-      fetchOptions.duplex = "half";
+        // Forward the stream body directly
+        if (request.method !== "GET" && request.method !== "HEAD" && request.body) {
+            fetchOptions.body = request.body;
+            fetchOptions.duplex = "half";
+        }
+
+        const response = await fetch(backendUrl, fetchOptions);
+
+        // Filter headers to return to the client
+        const responseHeaders = new Headers(response.headers);
+        responseHeaders.delete("content-encoding");
+
+        // Check if the response is binary/file
+        const contentType = responseHeaders.get("content-type") || "";
+        if (contentType.includes("application/pdf") || contentType.includes("image/")) {
+            // Forward the binary buffer exactly as is
+            const arrayBuffer = await response.arrayBuffer();
+            return new Response(arrayBuffer, {
+                status: response.status,
+                statusText: response.statusText,
+                headers: responseHeaders,
+            });
+        }
+
+        // Otherwise, text/json
+        const text = await response.text();
+
+        return new Response(text, {
+            status: response.status,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    } catch (error) {
+        console.log("Frontend Proxy Error:", error);
+        return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
-
-    const response = await fetch(backendUrl, fetchOptions);
-
-    // Filter headers to return to the client
-    // const responseHeaders = new Headers(response.headers);
-    // responseHeaders.delete('content-encoding');
-
-    // return new Response(response.body, {
-    //     status: response.status,
-    //     statusText: response.statusText,
-    //     headers: responseHeaders,
-    // });
-
-    const text = await response.text();
-
-    return new Response(text, {
-      status: response.status,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (error) {
-    console.log("Frontend Proxy Error:", error);
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
 }
 
 export const GET = handleProxy;

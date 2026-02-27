@@ -217,9 +217,32 @@ const ApplicationForm = () => {
         setSubmitStatus({
           type: "success",
           message:
-            "Application submitted successfully! Please save it for future reference.",
+            "Application submitted successfully! Downloading your registration form...",
         });
-        toast.success("Application submitted successfully! Please save it for future reference.");
+        toast.success("Application submitted successfully! Downloading your registration form...");
+
+        // Trigger PDF Download
+        try {
+          // The backend returns the new admission object in response.data.data
+          const regNo = response.data.data?.register_number;
+          if (regNo) {
+            const pdfResponse = await apiClient.get<Blob>(`/download_application_pdf?regNo=${regNo}`, {
+              responseType: 'blob'
+            });
+
+            const url = window.URL.createObjectURL(new Blob([pdfResponse.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `Application_${regNo}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link);
+            window.URL.revokeObjectURL(url);
+          }
+        } catch (pdfError) {
+          console.error("Failed to download application PDF automatically", pdfError);
+          toast.warning("Application submitted, but failed to download the PDF. Please contact admin.");
+        }
 
         // Reset form
         setFormData({
@@ -248,6 +271,8 @@ const ApplicationForm = () => {
           medical_conditions: "",
           whatsapp_number: "",
         });
+
+        setPhotoFile(null);
         setPhotoFile(null);
         setPhotoPreview("");
         setAadhaarFile(null);
@@ -793,7 +818,7 @@ const ApplicationForm = () => {
                         htmlFor="guardian_name"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
-                        Guardian Name <span className="text-red-500">*</span>
+                        Guardian Name
                       </label>
                       <input
                         type="text"
@@ -811,7 +836,7 @@ const ApplicationForm = () => {
                         htmlFor="guardian_relation"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
-                        Relation <span className="text-red-500">*</span>
+                        Relation
                       </label>
                       <select
                         id="guardian_relation"
@@ -834,7 +859,7 @@ const ApplicationForm = () => {
                         htmlFor="guardian_contact"
                         className="block text-sm font-semibold text-(--primary-color) mb-2"
                       >
-                        Guardian Contact <span className="text-red-500">*</span>
+                        Guardian Contact
                       </label>
                       <input
                         type="tel"
@@ -1013,7 +1038,7 @@ const ApplicationForm = () => {
                 {/* School TC */}
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-(--accent-gold) transition-colors">
                   <label className="block text-sm font-semibold text-(--primary-color) mb-3">
-                    {"School Transfer Certificate (if available)"}
+                    {"Birth Certificate"}
                   </label>
                   <div className="flex items-center gap-4">
                     <label className="cursor-pointer shrink-0 px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
@@ -1046,45 +1071,6 @@ const ApplicationForm = () => {
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
                     Upload TC from previous school if available
-                  </p>
-                </div>
-
-                {/* Madrasa Certificate */}
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-(--accent-gold) transition-colors">
-                  <label className="block text-sm font-semibold text-(--primary-color) mb-3">
-                    {"Madrasa 5th Certificate (if applicable)"}
-                  </label>
-                  <div className="flex items-center gap-4">
-                    <label className="cursor-pointer shrink-0 px-6 py-3 bg-(--primary-color) text-white rounded-[5px] font-semibold hover:bg-(--primary-color)/90 transition-all">
-                      <input
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={(e) => handleFileUpload(e, "certificate")}
-                        className="hidden"
-                      />
-                      Choose File
-                    </label>
-                    {certificateFile && (
-                      <div className="flex items-center gap-2 text-sm truncate text-green-600">
-                        <svg
-                          className="w-5 h-5 shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        {certificateFile.name}
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Upload certificate if you have completed Madrasa 5th
                   </p>
                 </div>
 

@@ -27,19 +27,19 @@ const MissionVission = () => {
   const mission = [
     {
       id: 1,
-      title: "Our mission",
+      title: "Mission",
       content:
         "Imam Gazzali Academy aims to become a center of excellence in Islamic thoughts and research by providing authentic and scholarly leadership to assure the representation of the Muslim community in the educational, cultural, social, and political fields of the society.",
     },
     {
       id: 2,
-      title: "Our Vision",
+      title: "Vision",
       content:
         "Imam Gazzali Academy envisions nurturing socially responsible, morally grounded, and intellectually competent Islamic scholars who possess knowledge, competitiveness, and strong values to contribute positively to society through education, research, and community engagement.",
     },
     {
       id: 3,
-      title: "Our Values",
+      title: "Values",
       content:
         "The Academy upholds core values such as commitment, respect, integrity, accountability, and responsibility, fostering an environment that encourages ethical leadership, mutual understanding, and dedication to personal and community development.",
     },
@@ -53,7 +53,7 @@ const MissionVission = () => {
         }`}
       >
         <h2 className="text-2xl md:text-3xl text-center pointer-events-none uppercase font-semibold text-(--primary-color)">
-          our Mission & vission
+          our Mission , vission & Values
         </h2>
         <span className="w-20 h-1 bg-(--accent-gold)"></span>
       </div>
