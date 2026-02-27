@@ -27,22 +27,22 @@ const MissionVission = () => {
   const mission = [
     {
       id: 1,
-      titile: "Our mission",
+      title: "Our mission",
       content:
         "Imam Gazzali Academy aims to become a center of excellence in Islamic thoughts and research by providing authentic and scholarly leadership to assure the representation of the Muslim community in the educational, cultural, social, and political fields of the society.",
     },
     {
-    id: 2,
-    title: "Our Vision",
-    content:
-      "Imam Gazzali Academy envisions nurturing socially responsible, morally grounded, and intellectually competent Islamic scholars who possess knowledge, competitiveness, and strong values to contribute positively to society through education, research, and community engagement.",
-  },
-  {
-    id: 3,
-    title: "Our Values",
-    content:
-      "The Academy upholds core values such as commitment, respect, integrity, accountability, and responsibility, fostering an environment that encourages ethical leadership, mutual understanding, and dedication to personal and community development.",
-  },
+      id: 2,
+      title: "Our Vision",
+      content:
+        "Imam Gazzali Academy envisions nurturing socially responsible, morally grounded, and intellectually competent Islamic scholars who possess knowledge, competitiveness, and strong values to contribute positively to society through education, research, and community engagement.",
+    },
+    {
+      id: 3,
+      title: "Our Values",
+      content:
+        "The Academy upholds core values such as commitment, respect, integrity, accountability, and responsibility, fostering an environment that encourages ethical leadership, mutual understanding, and dedication to personal and community development.",
+    },
   ];
 
   return (
@@ -76,7 +76,7 @@ const MissionVission = () => {
               </div>
             </div>
             <p className="font-semibold text-[16px] md:text-[18px]">
-              {item.titile}
+              {item.title}
             </p>
             <p className="font-medium text-[14px] md:text-[15px]">
               {item.content}
