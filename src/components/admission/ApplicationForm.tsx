@@ -545,6 +545,7 @@ const ApplicationForm = () => {
                       value={formData.date_of_birth}
                       onChange={handleChange}
                       required
+                      placeholder="Date Of Birth"
                       className="w-full px-4 py-3 rounded-[5px] border-2 border-gray-300 focus:border-(--accent-gold) focus:outline-none transition-colors"
                     />
                   </div>
