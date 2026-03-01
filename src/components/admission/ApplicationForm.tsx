@@ -1140,7 +1140,7 @@ const ApplicationForm = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8 pt-6 border-t-2 border-gray-200">
+            <div className="flex sm:flex-row flex-col gap-2 sm:justify-between mt-8 pt-6 border-t-2 border-gray-200">
               {currentStep > 1 && (
                 <button
                   type="button"
@@ -1154,7 +1154,7 @@ const ApplicationForm = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="ml-auto px-8 py-3 bg-(--accent-gold) text-white rounded-[5px] font-semibold transition-all hover:bg-(--accent-light)"
+                  className="sm:ml-auto w-full sm:w-auto px-8 py-3 bg-(--accent-gold) text-white rounded-[5px] font-semibold transition-all hover:bg-(--accent-light)"
                 >
                   Next Step
                 </button>
@@ -1162,7 +1162,7 @@ const ApplicationForm = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="ml-auto px-8 py-3 bg-(--accent-gold) text-white rounded-[5px] font-semibold transition-all hover:bg-(--accent-light) disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="sm:ml-auto w-full sm:w-auto px-8 py-3 bg-(--accent-gold) text-white rounded-[5px] font-semibold transition-all hover:bg-(--accent-light) disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
