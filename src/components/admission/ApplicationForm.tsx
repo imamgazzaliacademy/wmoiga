@@ -1071,7 +1071,7 @@ const ApplicationForm = () => {
                     )}
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
-                    Upload TC from previous school if available
+                    Upload Birth Certificate
                   </p>
                 </div>
 
