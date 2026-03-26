@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import apiClient from "@/services/api";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import Cropper from "react-easy-crop";
+import getCroppedImg from "@/utils/cropImage";
 
 interface FormData {
   // Personal Information
@@ -56,6 +58,12 @@ const ApplicationForm = () => {
   const [aadhaarFile, setAadhaarFile] = useState<File | null>(null);
   const [tcFile, setTcFile] = useState<File | null>(null);
   const [certificateFile, setCertificateFile] = useState<File | null>(null);
+
+  // Cropper states
+  const [photoSource, setPhotoSource] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   const [formData, setFormData] = useState<FormData>({
     full_name: "",
@@ -143,24 +151,41 @@ const ApplicationForm = () => {
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Check file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         alert("Photo size should be less than 2MB");
         return;
       }
-
-      // Check file type
       if (!file.type.startsWith("image/")) {
         alert("Please upload an image file");
         return;
       }
-
-      setPhotoFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhotoPreview(reader.result as string);
+        setPhotoSource(reader.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const showCroppedImage = async () => {
+    try {
+      if (!photoSource || !croppedAreaPixels) return;
+      const croppedImageFile = await getCroppedImg(
+        photoSource,
+        croppedAreaPixels
+      );
+      if (croppedImageFile) {
+        setPhotoFile(croppedImageFile as File);
+        setPhotoPreview(URL.createObjectURL(croppedImageFile));
+        setPhotoSource(null); // safely close the modal off screen explicitly mapping clean hooks
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Error cropping image");
     }
   };
 
@@ -459,6 +484,10 @@ const ApplicationForm = () => {
                         accept="image/*"
                         onChange={handlePhotoUpload}
                         className="hidden"
+                        onClick={(e) => {
+                          // Allow re-selecting the same file to trigger re-crop
+                          (e.target as HTMLInputElement).value = "";
+                        }}
                         required={!photoFile}
                       />
                       {photoPreview ? "Change Photo" : "Upload Photo"}
@@ -466,6 +495,58 @@ const ApplicationForm = () => {
                     <p className="text-xs text-gray-500 text-center">
                       Max size: 2MB | Formats: jpg, PNG
                     </p>
+
+                    {/* Crop Modal Rendering Overlays */}
+                    {photoSource && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
+                        <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 flex flex-col gap-4">
+                          <h3 className="text-xl font-semibold text-(--primary-color) text-center">
+                            Crop Passport Photo
+                          </h3>
+                          <div className="relative w-full h-80 bg-gray-100 rounded-lg overflow-hidden">
+                            <Cropper
+                              image={photoSource}
+                              crop={crop}
+                              zoom={zoom}
+                              aspect={3 / 4}
+                              onCropChange={setCrop}
+                              onZoomChange={setZoom}
+                              onCropComplete={onCropComplete}
+                            />
+                          </div>
+                          <div className="flex bg-white gap-4 justify-between items-center w-full px-2">
+                            <input
+                              type="range"
+                              value={zoom}
+                              min={1}
+                              max={3}
+                              step={0.1}
+                              aria-labelledby="Zoom"
+                              onChange={(e) => {
+                                setZoom(Number(e.target.value));
+                              }}
+                              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                            />
+                          </div>
+                          <div className="flex gap-4 w-full mt-2">
+                            <button
+                              type="button"
+                              onClick={() => setPhotoSource(null)}
+                              className="w-1/2 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={showCroppedImage}
+                              className="w-1/2 px-4 py-2 bg-(--accent-gold) text-white rounded-lg font-semibold hover:bg-(--accent-light) transition-colors"
+                            >
+                              Crop & Save
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
