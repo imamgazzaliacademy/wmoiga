@@ -498,7 +498,7 @@ const ApplicationForm = () => {
 
                     {/* Crop Modal Rendering Overlays */}
                     {photoSource && (
-                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/10 backdrop-blur-sm">
                         <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 flex flex-col gap-4">
                           <h3 className="text-xl font-semibold text-(--primary-color) text-center">
                             Crop Passport Photo
