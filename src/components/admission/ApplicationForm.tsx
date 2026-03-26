@@ -501,7 +501,7 @@ const ApplicationForm = () => {
                       <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/10 backdrop-blur-sm">
                         <div className="bg-white rounded-lg p-6 w-full max-w-lg mx-4 flex flex-col gap-4">
                           <h3 className="text-xl font-semibold text-(--primary-color) text-center">
-                            Crop Passport Photo
+                            Crop Photo
                           </h3>
                           <div className="relative w-full h-80 bg-gray-100 rounded-lg overflow-hidden">
                             <Cropper
