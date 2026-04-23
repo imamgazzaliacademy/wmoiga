@@ -67,16 +67,16 @@ const Admission = () => {
                 : "opacity-0 -translate-y-8"
             }`}
           >
-            Admissions open now!
+            Online Admissions Closed!
           </h2>
           <p
             className={`md:max-w-150 mb-10 opacity-90 transition-all duration-1000 delay-600 ${
               isVisible ? "opacity-90 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Admissions are currently open for the 2026 academic year.
-            Secure your child's future today. for more information contact +91
-            9207396747
+            Online admissions are now closed for the 2026 academic year. For
+            further inquiries, please contact +91 9745222294 or visit our
+            office.
           </p>
           <div
             className={`flex gap-4 justify-center md:justify-start flex-wrap transition-all duration-1000 delay-800 ${
@@ -85,7 +85,7 @@ const Admission = () => {
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <Link
+            {/* <Link
               href="#"
               className="px-9 py-4 rounded bg-(--accent-gold) text-white font-semibold no-underline transition-all hover:bg-(--accent-light) hover:-translate-y-0.5"
             >
@@ -96,7 +96,7 @@ const Admission = () => {
               className="px-9 py-4 rounded bg-white text-(--primary-color) font-semibold no-underline transition-all hover:bg-white/90"
             >
               Online Application
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>

@@ -56,7 +56,7 @@ const Navbar = () => {
 
   const handleHome = () => router.push("/");
 
-  const handleApply = () => router.push("/admission#application-form");
+  const handleApply = () => router.push("/admission");
 
   return (
     <>

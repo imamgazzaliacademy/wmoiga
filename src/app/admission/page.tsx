@@ -5,6 +5,7 @@ import Eligibility from "@/components/admission/Eligibility";
 import HallTicketDownload from "@/components/admission/HallTicketDownload";
 import ImportantDates from "@/components/admission/ImportandDates";
 import Footer from "@/components/Footer";
+import Admission from "@/components/home/Admission";
 import React from "react";
 
 export default function AdmissionPage() {
@@ -14,7 +15,8 @@ export default function AdmissionPage() {
       <AdmissionProcess />
       <Eligibility />
       <ImportantDates />
-      <ApplicationForm />
+      {/* <ApplicationForm /> */}
+      <Admission />
       {/* <HallTicketDownload /> */}
       <Footer/>
     </main>
