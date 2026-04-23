@@ -141,14 +141,14 @@ const Navbar = () => {
         </button>
 
         {/* CTA Button - Desktop */}
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <button
             onClick={handleApply}
             className={`px-4 sm:px-6 h-10 gold-button ${isScrolled ? "rounded-full " : "rounded-[5px]"} text-[13px] sm:text-[14px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300`}
           >
             Apply Now
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Dropdown Menu */}
@@ -225,9 +225,9 @@ const Navbar = () => {
             ))}
 
             {/* Divider */}
-            <div className="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+            {/* <div className="h-px bg-gray-200 dark:bg-gray-700 my-2"></div> */}
 
-            <button
+            {/* <button
               onClick={() => {
                 handleApply();
                 setIsMobileMenuOpen(false);
@@ -235,7 +235,7 @@ const Navbar = () => {
               className="mt-2 w-full h-12 gold-button rounded-[5px] text-[15px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300"
             >
               {"Apply Now"}
-            </button>
+            </button> */}
           </nav>
         </div>
       </div>
