@@ -18,7 +18,7 @@ export default function Home() {
       <Objectives/>
       <LifeAtGazzali />
       {/* <DirectorVoice /> */}
-      <Admission />
+      {/* <Admission /> */}
       <Footer />
     </div>
   );
