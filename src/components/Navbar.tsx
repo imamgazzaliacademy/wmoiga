@@ -140,15 +140,35 @@ const Navbar = () => {
           </div>
         </button>
 
-        {/* CTA Button - Desktop */}
-        {/* <div className="hidden md:block">
-          <button
-            onClick={handleApply}
-            className={`px-4 sm:px-6 h-10 gold-button ${isScrolled ? "rounded-full " : "rounded-[5px]"} text-[13px] sm:text-[14px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300`}
+        {/* Student Portal CTA Button - Desktop */}
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href={process.env.NEXT_PUBLIC_STUDENT_PORTAL_URL}
+            className={`px-4 sm:px-5 h-9 gold-button ${isScrolled ? "rounded-full" : "rounded-lg"
+              } text-[13px] sm:text-[14px] font-semibold text-white shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-2`}
           >
-            Apply Now
-          </button>
-        </div> */}
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 14l9-5-9-5-9 5 9 5z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+              />
+            </svg>
+            <span>Student Portal</span>
+          </a>
+        </div>
       </div>
 
       {/* Mobile Dropdown Menu */}
@@ -225,17 +245,34 @@ const Navbar = () => {
             ))}
 
             {/* Divider */}
-            {/* <div className="h-px bg-gray-200 dark:bg-gray-700 my-2"></div> */}
+            <div className="h-px bg-gray-200 my-2"></div>
 
-            {/* <button
-              onClick={() => {
-                handleApply();
-                setIsMobileMenuOpen(false);
-              }}
-              className="mt-2 w-full h-12 gold-button rounded-[5px] text-[15px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300"
+            <a
+              href={process.env.NEXT_PUBLIC_STUDENT_PORTAL_URL}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-2 w-full h-11 gold-button rounded-xl text-[14px] font-semibold text-white shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
             >
-              {"Apply Now"}
-            </button> */}
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 14l9-5-9-5-9 5 9 5z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                />
+              </svg>
+              <span>Student Portal</span>
+            </a>
           </nav>
         </div>
       </div>
