@@ -51,11 +51,14 @@ const AllAlumni = () => {
         if (response.data.success) {
           const mappedAlumni = response.data.data.map((item: any) => ({
             ...item,
-            currentPosition: item.profession || item.currentPosition || 'Alumni',
+            name: item.name || item.full_name,
+            currentPosition: item.currentPosition || item.profession || item.current_position || 'Alumni',
             field: item.field || 'General',
             location: item.location || 'Unknown',
             email: item.email || '',
             organization: item.organization || '',
+            batch: item.batch || 'General',
+            linkedin: item.linkedin || '',
           }));
           setAllAlumni(mappedAlumni);
         }

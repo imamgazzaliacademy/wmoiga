@@ -16,13 +16,47 @@ interface AlumniProfile {
   field: string;
 }
 
+const AlumniCardImage = ({ src, alt }: { src?: string; alt: string }) => {
+  const [hasError, setHasError] = useState(!src || !src.trim());
+
+  useEffect(() => {
+    setHasError(!src || !src.trim());
+  }, [src]);
+
+  if (hasError || !src || !src.trim()) {
+    return (
+      <div className="w-full h-full bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-950 flex flex-col items-center justify-center p-6 text-neutral-400 select-none">
+        <div className="w-24 h-24 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center mb-8 shadow-lg">
+          <svg
+            className="w-16 h-16 text-neutral-300 drop-shadow-sm"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {/* Standard male/man profile silhouette */}
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+          </svg>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+    />
+  );
+};
+
 const FeaturedAlumni = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [featuredAlumni, setFeaturedAlumni] = useState<AlumniProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,14 +82,15 @@ const FeaturedAlumni = () => {
       try {
         const response = await apiClient.get('/get_featured_alumni');
         if (response.data.success) {
-          // Normalize the data format from backend if needed
+          // Normalize the data format from backend
           const backendAlumni = response.data.data.map((item: any) => ({
             ...item,
-            image: item.photoUrl || item.photo,
-            currentPosition: item.profession, // map assuming backend uses 'profession'
+            name: item.name || item.full_name,
+            image: item.photo_url || item.photoUrl || item.photo || item.image || '',
+            currentPosition: item.currentPosition || item.profession || item.current_position || 'Alumni',
             field: item.field || 'General',
             location: item.location || 'Unknown',
-            achievement: item.achievement || 'Notable Alumnus',
+            achievement: item.achievement || item.achievements || 'Notable Alumnus',
             organization: item.organization || '',
           }));
           setFeaturedAlumni(backendAlumni);
@@ -80,23 +115,22 @@ const FeaturedAlumni = () => {
         <div className="text-center mb-16">
           <div className="flex flex-col gap-2 items-center mb-6">
             <h2
-              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-                }`}
+              className={`text-xl md:text-2xl lg:text-3xl uppercase  font-semibold text-(--primary-color) transition-all duration-1000 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
             >
               Successful Alumni
             </h2>
             <span
-              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${isVisible ? "w-20" : "w-0"
-                }`}
+              className={`h-1 bg-(--accent-gold) transition-all duration-700 delay-200 ${
+                isVisible ? "w-20" : "w-0"
+              }`}
             />
           </div>
           <p
-            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-4"
-              }`}
+            className={`text-[15px] md:text-[16px] text-gray-600 max-w-2xl mx-auto transition-all duration-1000 delay-400 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
           >
             Celebrating the remarkable achievements of our distinguished alumni
             who are making a global impact
@@ -107,7 +141,10 @@ const FeaturedAlumni = () => {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-8">
           {loading ? (
             [1, 2, 3, 4, 5].map((n) => (
-              <div key={n} className="bg-white rounded-lg overflow-hidden shadow-lg h-[450px] animate-pulse flex flex-col">
+              <div
+                key={n}
+                className="bg-white rounded-lg overflow-hidden shadow-lg h-[450px] animate-pulse flex flex-col"
+              >
                 <div className="h-80 bg-gray-300 w-full"></div>
                 <div className="p-6 flex-1 flex flex-col gap-3">
                   <div className="h-4 bg-gray-300 rounded w-1/3"></div>
@@ -116,35 +153,30 @@ const FeaturedAlumni = () => {
                 </div>
               </div>
             ))
-          ) : (
+          ) : featuredAlumni.length > 0 ? (
             featuredAlumni.map((alumni, index) => (
               <div
                 key={alumni.id}
-                className={`group transition-all duration-1000 ${isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-12"
-                  }`}
+                className={`group transition-all duration-1000 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                }`}
                 style={{ transitionDelay: `${600 + index * 150}ms` }}
               >
                 <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
-                  {/* Image Container */}
-                  <div className="relative h-80 overflow-hidden">
-                    <img
-                      src={alumni.image}
-                      alt={alumni.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
+                  {/* Image Container with Fallback */}
+                  <div className="relative h-80 overflow-hidden bg-neutral-900">
+                    <AlumniCardImage src={alumni.image} alt={alumni.name} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none" />
 
                     {/* Batch Badge */}
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-4 right-4 z-10">
                       <span className="px-3 py-1 bg-(--accent-gold) text-white text-xs font-semibold rounded-full shadow-lg">
                         {alumni.batch}
                       </span>
                     </div>
 
                     {/* Name & Position Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="absolute bottom-0 left-0 right-0 p-6 z-10 pointer-events-none">
                       <h3 className="text-xl font-semibold text-white mb-1">
                         {alumni.name}
                       </h3>
@@ -204,6 +236,10 @@ const FeaturedAlumni = () => {
                 </div>
               </div>
             ))
+          ) : (
+            <div className="col-span-full py-12 text-center bg-white/60 rounded-lg border border-dashed border-gray-300">
+              <p className="text-gray-500 text-sm">No featured alumni to display at the moment.</p>
+            </div>
           )}
         </div>
 
