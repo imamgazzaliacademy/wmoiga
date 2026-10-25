@@ -14,7 +14,7 @@ const Footer = () => {
       <Announcement />
       <footer className="bg-(--primary-color) text-white px-6 lg:px-20 py-10 relative">
         <div
-          className="absolute inset-0  opacity-10 bg-center bg-no-repeat bg-cover"
+          className="absolute inset-0  opacity-10 pointer-events-none bg-center bg-no-repeat bg-cover"
           style={{ backgroundImage: "url('/photos/4.JPG')" }}
         ></div>
         <div className="flex flex-col lg:flex-row lg:justify-between gap-12 z-10 mb-16">
@@ -34,14 +34,14 @@ const Footer = () => {
             </div>
             <div className="flex gap-4 flex-wrap lg:mb-6">
               <div className="flex gap-2 items-center bg-white px-4 py-2 rounded-[3px]">
-                <img src="/moulanaazad.png" className="w-10" alt="moula"/> 
+                <img src="/moulanaazad.png" className="w-10" alt="moula" />
                 <div className="text-(--text-dark)">
                   <p className="text-[10px] font-semibold uppercase">Approved BY</p>
                   <p className="text-[10px] leading-3">Moulana Azad <br /> National Urdu University</p>
                 </div>
               </div>
               <div className="flex gap-2 items-center bg-white px-4 py-2 rounded-[3px]">
-                <img src="/iuou.png" className="w-10" alt="moula"/> 
+                <img src="/iuou.png" className="w-10" alt="moula" />
                 <div className="text-(--text-dark)">
                   <p className="text-[10px] font-semibold uppercase">Member</p>
                   <p className="text-[10px] leading-3">international union<br /> of universities</p>
@@ -103,7 +103,7 @@ const Footer = () => {
                     Our Alumni
                   </Link>
                 </li>
-                
+
                 <li className="mb-3">
                   <Link
                     href="/admission"
@@ -155,7 +155,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 pt-8 text-center text-[0.85rem] text-white/50">
-          © 2026 WMO Imam Gazzali Academy. All Rights Reserved.
+          <p>© 2026 WMO Imam Gazzali Academy. All Rights Reserved.</p>
+          <p>Design and Developed by <Link href="https://aashique.space" target="_blank" className="px-1 cursor-pointer text-white no-underline hover:underline hover:text-(--accent-gold) transition-all duration-1000">Ashique Ghazali</Link></p>
         </div>
       </footer>
     </>
