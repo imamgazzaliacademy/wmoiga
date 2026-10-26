@@ -11,8 +11,8 @@ export default function AlumniPage() {
     <main className="min-h-screen">
       <AlumniHero />
       <AlumniStats />
-      <FeaturedAlumni />
-      <AllAlumni />
+      {/* <FeaturedAlumni /> */}
+      {/* <AllAlumni /> */}
       {/* <AlumniRegistration /> */}
       <Footer />
     </main>
