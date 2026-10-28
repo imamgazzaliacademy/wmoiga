@@ -38,7 +38,15 @@ async function handleProxy(
 
         // Check if the response is binary/file
         const contentType = responseHeaders.get("content-type") || "";
-        if (contentType.includes("application/pdf") || contentType.includes("image/")) {
+        if (
+            contentType.includes("application/pdf") ||
+            contentType.includes("image/") ||
+            contentType.includes("application/octet-stream") ||
+            contentType.includes("officedocument") ||
+            contentType.includes("word") ||
+            contentType.includes("excel") ||
+            responseHeaders.get("content-disposition")
+        ) {
             // Forward the binary buffer exactly as is
             const arrayBuffer = await response.arrayBuffer();
             return new Response(arrayBuffer, {
